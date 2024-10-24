@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Analyzer App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        #imageDisplay {
+            margin-top: 20px;
+            max-width: 100%;
+            height: auto;
+        }
+        #analysisResult {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Image Analyzer App</h1>
+
+    <p>Select an image to upload and analyze.</p>
+
+    <input type="file" id="imageInput" accept="image/*">
+    
+    <br><br>
+
+    <img id="imageDisplay" alt="Uploaded Image" />
+    
+    <div id="analysisResult"></div>
+
+    <script>
+        // Function to display the uploaded image and perform analysis
+        document.getElementById('imageInput').addEventListener('change', function(event) {
+            const image = document.getElementById('imageDisplay');
+            const analysisResult = document.getElementById('analysisResult');
+            
+            const file = event.target.files[0];
+            if (file) {
+                // Display the uploaded image
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    image.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+
+                // Perform basic analysis (just displaying dimensions for now)
+                const img = new Image();
+                img.onload = function() {
+                    const width = img.width;
+                    const height = img.height;
+                    analysisResult.textContent = `Image Dimensions: ${width}px x ${height}px`;
+                };
+                img.src = URL.createObjectURL(file);
+            } else {
+                image.src = '';
+                analysisResult.textContent = '';
+            }
+        });
+    </script>
+
+</body>
+</html>
